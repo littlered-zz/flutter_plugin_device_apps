@@ -96,6 +96,18 @@ public class DeviceAppsPlugin implements MethodCallHandler, PluginRegistry.ViewD
                     String packageName = call.argument("package_name").toString();
                     result.success(openApp(packageName));
                 }
+                break;
+            case "openMarket":
+                if (!call.hasArgument("package_name") || TextUtils.isEmpty(call.argument("package_name").toString())) {
+                    result.error("ERROR", "Empty or null package name", null);
+                } else if (!call.hasArgument("url") || TextUtils.isEmpty(call.argument("url").toString())) {
+                    result.error("ERROR", "Empty or null url specfied", null);
+                } else {
+                    String packageName = call.argument("package_name").toString();
+                    String url = call.argument("url").toString();
+                    result.success(openMarket(url, packageName));
+                }
+                break;
             default:
                 result.notImplemented();
         }
@@ -144,6 +156,17 @@ public class DeviceAppsPlugin implements MethodCallHandler, PluginRegistry.ViewD
             return true;
         }
         return false;
+    }
+
+    private boolean openMarket(String url, String packageName) {
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        if (!TextUtils.isEmpty(packageName)) {
+            intent.setPackage(packageName);
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        return true;
     }
 
     private boolean isSystemApp(PackageInfo pInfo) {

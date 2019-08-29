@@ -76,6 +76,14 @@ class DeviceApps {
     return await _channel
         .invokeMethod('openApp', {'package_name': packageName});
   }
+
+  static Future<bool> openMarket(String url, String packageName) async {
+    if (packageName.isEmpty) {
+      throw Exception('The package name can not be empty');
+    }
+    return await _channel
+        .invokeMethod('openMarket', {'package_name': packageName, 'url' : url});
+  }
 }
 
 class Application {
