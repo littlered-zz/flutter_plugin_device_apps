@@ -166,7 +166,7 @@ public class DeviceAppsPlugin implements MethodCallHandler, PluginRegistry.ViewD
             intent.setPackage(packageName);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        activity.startActivity(intent);
         return true;
     }
 
