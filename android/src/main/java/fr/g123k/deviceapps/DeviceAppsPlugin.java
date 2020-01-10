@@ -195,11 +195,14 @@ public class DeviceAppsPlugin implements MethodCallHandler, PluginRegistry.ViewD
     private Map<String, Object> getAppData(PackageManager packageManager, PackageInfo pInfo, boolean includeAppIcon) {
         Map<String, Object> map = new HashMap<>();
         map.put("app_name", pInfo.applicationInfo.loadLabel(packageManager).toString());
+        map.put("apk_file_path", pInfo.applicationInfo.sourceDir);
         map.put("package_name", pInfo.packageName);
         map.put("version_code", pInfo.versionCode);
         map.put("version_name", pInfo.versionName);
         map.put("data_dir", pInfo.applicationInfo.dataDir);
         map.put("system_app", isSystemApp(pInfo));
+        map.put("install_time", pInfo.firstInstallTime);
+        map.put("update_time", pInfo.lastUpdateTime);
 
         if (includeAppIcon) {
             try {
